@@ -9,7 +9,7 @@ const Deals = () => {
   const { days, hours, minutes, seconds } = useCountdown()
 
   return (
-    <section className='bg-[#FAFAFA] grid grid-cols-[450px_1fr] gap-10 py-10'>
+    <section className='bg-[#FAFAFA] grid grid-cols-[450px_1fr] gap-10 p-10'>
       <div className='flex flex-col gap-5 w-full'>
         <h2 className='capitalize font-primary text-4xl font-medium'>deals of the month</h2>
         <p className='text-[#8A8A8A] inline-block w-[400px] text-sm'>

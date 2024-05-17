@@ -1,22 +1,22 @@
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
 import { IoIosHeartEmpty } from 'react-icons/io'
 import { IoSearchOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 
 const Header = () => {
   return (
-    <div className='flex items-center py-5'>
+    <div className='container mx-auto flex items-center py-5'>
       <div className='basis-0 flex-grow cursor-pointer'>
         <img className='w-[100px] h-auto' src={Logo} alt='Apparel Express logo' />
       </div>
 
       <nav className=''>
         <ul className='flex gap-5 text-sm font-semibold [&>li]:cursor-pointer'>
-          <li>Home</li>
-          <li>Shop</li>
-          <li>Our Story</li>
-          <li>Blog</li>
-          <li>Contact Us</li>
+          <Link to='/'>Home</Link>
+          <Link to='/shop'>Shop</Link>
+          <Link to='/dels'>Dels</Link>
+          <Link to='/contact-us'>Contact Us</Link>
         </ul>
 
       </nav>

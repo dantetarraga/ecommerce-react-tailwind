@@ -3,7 +3,7 @@ import Banner from '../assets/images/banner.jpg'
 
 const HeroBanner = () => {
   return (
-    <div className='relative w-full'>
+    <div className='relative w-full bg-red-200'>
       <img className='rounded-md' src={Banner} alt='' />
       <div className='absolute top-1/2 left-[10%] transform -translate-y-1/2'>
         <h1 className='text-4xl font-bold text-white'>Apparel Express</h1>
