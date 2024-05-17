@@ -2,7 +2,7 @@ import React from 'react'
 import Deals from './components/Deals'
 import Header from './components/Header'
 import HeroBanner from './components/HeroBanner'
-import BrandCarousel from './components/carousel/BrandCarousel'
+import InfiniteCarousel from './components/carousel/InfiniteCarousel'
 
 function App () {
   return (
@@ -10,7 +10,7 @@ function App () {
       <Header />
       <HeroBanner />
       {/* <Categories /> */}
-      <BrandCarousel />
+      <InfiniteCarousel />
       <Deals />
       <footer className='bg-[#333] text-white text-center py-4'>
         <p>&copy; 2021 All rights reserved.</p>

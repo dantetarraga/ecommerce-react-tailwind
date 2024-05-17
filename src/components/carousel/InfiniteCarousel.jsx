@@ -14,7 +14,7 @@ const BRANDS = [
   { id: 6, name: 'Giorgio Armani', brand: GiorgioArmani }
 ]
 
-const BrandCarousel = () => {
+const InfiniteCarousel = () => {
   const brands = [...BRANDS, ...BRANDS]
 
   return (
@@ -32,4 +32,4 @@ const BrandCarousel = () => {
   )
 }
 
-export default BrandCarousel
+export default InfiniteCarousel
