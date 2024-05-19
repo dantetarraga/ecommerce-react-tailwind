@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
 
-const initialSlides = [
+const slides = [
   {
-    image: 'jewelery.jpg',
+    image: 'jewelery.webp',
     title: 'Jewelery',
     discount: 'Up to 50% off'
   },
   {
-    image: 'electronics.jpg',
+    image: 'electronics.webp',
     title: 'Watches',
     discount: 'Up to 30% off'
   },
   {
-    image: 'women-clothing.jpg',
+    image: 'women-clothing.webp',
     title: 'Women Clothing',
     discount: 'Up to 40% off'
   },
   {
-    image: 'mens-clothing.jpg',
+    image: 'mens-clothing.webp',
     title: 'Mens Clothing',
     discount: 'Up to 60% off'
   }
@@ -26,7 +26,6 @@ const initialSlides = [
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [slides] = useState([...initialSlides])
   const carouselRef = useRef(null)
 
   useEffect(() => {
@@ -40,7 +39,7 @@ const Carousel = () => {
   }
 
   const goToPrevSlide = () => {
-    setCurrentSlide((prevSlide) => (currentSlide === 0 ? slides.length - 1 : prevSlide - 1))
+    setCurrentSlide((prevSlide) => (prevSlide === 0 ? slides.length - 1 : prevSlide - 1))
   }
 
   const startAutoSlide = () => {
