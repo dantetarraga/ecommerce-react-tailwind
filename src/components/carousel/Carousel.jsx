@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
 
-const slides = [
+const initialSlides = [
   {
     image: 'jewelery.jpg',
     title: 'Jewelery',
@@ -14,57 +14,37 @@ const slides = [
   },
   {
     image: 'women-clothing.jpg',
-    title: 'Shoes',
+    title: 'Women Clothing',
     discount: 'Up to 40% off'
   },
   {
     image: 'mens-clothing.jpg',
-    title: 'Clothing',
+    title: 'Mens Clothing',
     discount: 'Up to 60% off'
   }
 ]
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const intervalRef = useRef(null)
+  const [slides] = useState([...initialSlides])
   const carouselRef = useRef(null)
-  const slideWidth = 300
-  const gap = 20
-
-  useEffect(() => {
-    intervalRef.current = carouselRef.current
-  }, [carouselRef.current, currentSlide])
 
   useEffect(() => {
     startAutoSlide()
 
-    return () => clearInterval(intervalRef.current)
+    return () => clearInterval(carouselRef.current)
   }, [currentSlide])
 
   const goToNextSlide = () => {
-    nextSlide()
-    setCurrentSlide((prevSlide) => (currentSlide === slides.length - 1 ? 0 : prevSlide + 1))
+    setCurrentSlide((prevSlide) => (prevSlide === slides.length - 1 ? 0 : prevSlide + 1))
   }
 
-  const goToPrevSlide = () =>
+  const goToPrevSlide = () => {
     setCurrentSlide((prevSlide) => (currentSlide === 0 ? slides.length - 1 : prevSlide - 1))
+  }
 
-  const startAutoSlide = () => (intervalRef.current = setInterval(goToNextSlide, 3000))
-
-  const nextSlide = () => {
-    if (carouselRef.current) {
-      const firstSlide = carouselRef.current?.children[0]
-      carouselRef.current.style.transition = 'transform 0.5s ease-in-out'
-      carouselRef.current.style.transform = `translateX(-${slideWidth + gap}px)`
-
-      console.log(currentSlide)
-
-      setTimeout(() => {
-        carouselRef.current.style.transition = 'none'
-        carouselRef.current.style.transform = 'translateX(0)'
-        carouselRef.current.appendChild(firstSlide)
-      }, 3000)
-    }
+  const startAutoSlide = () => {
+    carouselRef.current = setInterval(goToNextSlide, 3000)
   }
 
   return (
@@ -72,15 +52,15 @@ const Carousel = () => {
       <div className='relative overflow-hidden'>
         <div
           ref={carouselRef}
-          className='flex h-[400px] gap-5'
+          className='flex h-[400px] transition-all'
         >
           {slides.map((slide, index) => (
             <img
               key={index}
               src={slide.image}
               alt={`Slide ${index + 1}`}
-              className={`flex-shrink-0 rounded-md object-cover ${index === currentSlide ? 'h-full' : 'h-[80%]'} w-[300px] transition-all ease-in-out duration-500`}
-              // style={{ transform: `translateX(calc(-${currentSlide * (slideWidth + gap)}px))` }}
+              className='flex-shrink-0 rounded-md object-cover h-full w-[100%] transition-all duration-1000 ease-in-out'
+              style={{ transform: `translateX(calc(-${currentSlide * 100}%))` }}
             />
           ))}
         </div>
