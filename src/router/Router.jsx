@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import AppLayout from '../layout/AppLayout'
+import ShopLayout, { shopLayoutLoader } from '../layout/ShopLayout'
 import Home from '../views/Home'
 import { Shop, shopLoader } from '../views/Shop'
 
@@ -13,8 +14,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/shop',
-        loader: shopLoader,
-        element: <Shop />
+        loader: shopLayoutLoader,
+        element: <ShopLayout />,
+        children: [
+          {
+            index: true,
+            element: <Shop />,
+            loader: shopLoader
+          }
+        ]
       },
       {
         path: '/dels',
