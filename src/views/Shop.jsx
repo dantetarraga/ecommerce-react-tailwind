@@ -48,7 +48,6 @@ export const Shop = () => {
             <p className='text-lg my-5'>
               Price: ${priceRange[0]} - ${priceRange[1]}
             </p>
-            {/* <input id='price' type='range' className='accent-black' multiple min='0' step='1' max='10' /> */}
             <InputRange values={priceRange} setValues={setPriceRange} />
           </div>
         </div>
