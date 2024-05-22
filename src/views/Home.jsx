@@ -1,7 +1,6 @@
 import InfiniteCarousel from '../components/carousel/InfiniteCarousel'
 import Categories from '../components/category/Categories'
 import Deals from '../components/Deals'
-import Footer from '../components/Footer'
 import HeroBanner from '../components/HeroBanner'
 
 const Home = () => {
@@ -11,7 +10,6 @@ const Home = () => {
       <InfiniteCarousel />
       <Deals />
       <Categories />
-      <Footer />
     </div>
   )
 }

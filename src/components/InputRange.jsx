@@ -33,22 +33,26 @@ const InputRange = ({ values, setValues }) => {
           {children}
         </div>
       )}
-      renderThumb={({ props }) => (
-        <div
-          {...props}
-          style={{
-            ...props.style,
-            height: '15px',
-            width: '15px',
-            backgroundColor: '#000',
-            borderRadius: '50%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 'none'
-          }}
-        />
-      )}
+      renderThumb={({ props }) => {
+        const { key, ...restProps } = props
+        return (
+          <div
+            key={key}
+            {...restProps}
+            style={{
+              ...restProps.style,
+              height: '15px',
+              width: '15px',
+              backgroundColor: '#000',
+              borderRadius: '50%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 'none'
+            }}
+          />
+        )
+      }}
     />
   )
 }
