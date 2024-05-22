@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { FaBoxOpen } from 'react-icons/fa'
+import { MdKeyboardArrowDown, MdOutlinePayment } from 'react-icons/md'
+import { RiMoneyDollarCircleLine } from 'react-icons/ri'
+import { SlEarphones } from 'react-icons/sl'
 import { Outlet, useLoaderData } from 'react-router-dom'
 import InputRange from '../components/InputRange'
 import { getAllCategories } from '../services/products'
@@ -15,7 +18,7 @@ const ShopLayout = () => {
   const [priceRange, setPriceRange] = useState([0, 5])
 
   return (
-    <section className=''>
+    <section className='h-full flex flex-col'>
       <p className='mt-5 mb-10 font-bold'>Product Categories {'>'} All Products</p>
 
       <div className='flex gap-10'>
@@ -60,7 +63,31 @@ const ShopLayout = () => {
         <main className='w-full'>
           <Outlet />
         </main>
+
       </div>
+
+      <footer className='flex justify-between items-end flex-grow mb-20'>
+        <div>
+          <FaBoxOpen className='text-5xl text-black' />
+          <p>Free Shipping</p>
+          <p>Free shipping for order above $150</p>
+        </div>
+        <div>
+          <RiMoneyDollarCircleLine className='text-5xl text-black' />
+          <p>Money Guarantee</p>
+          <p>Within 30 days for an exchange</p>
+        </div>
+        <div>
+          <SlEarphones className='text-5xl text-black' />
+          <p>Online Support</p>
+          <p>24 hours a day, 7 days a week</p>
+        </div>
+        <div>
+          <MdOutlinePayment className='text-5xl text-black' />
+          <p>flexible Payment</p>
+          <p>Pay with multiple credit cards</p>
+        </div>
+      </footer>
     </section>
   )
 }

@@ -5,13 +5,14 @@ import Header from '../components/Header'
 
 const AppLayout = () => {
   return (
-    <div className='container mx-auto'>
+    <div className='container mx-auto flex flex-col h-screen'>
       <Header />
 
-      <main className='w-full'>
+      <main className='flex-grow flex flex-col'>
         <Outlet />
       </main>
-      <Footer />
+
+      <Footer className='items-end' />
     </div>
   )
 }
