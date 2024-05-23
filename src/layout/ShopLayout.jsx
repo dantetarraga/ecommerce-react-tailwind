@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaBoxOpen } from 'react-icons/fa'
 import { MdKeyboardArrowDown, MdOutlinePayment } from 'react-icons/md'
 import { RiMoneyDollarCircleLine } from 'react-icons/ri'
 import { SlEarphones } from 'react-icons/sl'
-import { Outlet, useLoaderData } from 'react-router-dom'
+import { Outlet, useLoaderData, useSearchParams } from 'react-router-dom'
 import InputRange from '../components/InputRange'
 import { getAllCategories } from '../services/products'
+import debounce from '../utils/debounce'
 
 export const shopLayoutLoader = async () => {
   const categories = await getAllCategories()
@@ -14,8 +15,36 @@ export const shopLayoutLoader = async () => {
 }
 
 const ShopLayout = () => {
+  const [, setSearchParams] = useSearchParams()
   const { categories } = useLoaderData()
-  const [priceRange, setPriceRange] = useState([0, 5])
+  const [filters, setFilters] = useState([])
+  const [priceRange, setPriceRange] = useState([5, 1000])
+  const [isSliding, setIsSliding] = useState(false)
+
+  useEffect(() => {
+    if (filters.length === 0) setSearchParams({ price: priceRange.join('-') })
+    else setSearchParams({ category: filters.join('-'), price: priceRange.join('-') })
+  }, [filters])
+
+  useEffect(() => {
+    const updateSearchParams = debounce(() => {
+      if (filters.length === 0) setSearchParams({ price: priceRange.join('-') })
+      else setSearchParams({ price: priceRange.join('-'), category: filters.join('-') })
+    }, 500)
+
+    updateSearchParams()
+
+    return () => updateSearchParams.cancel && updateSearchParams.cancel()
+  }, [priceRange])
+
+  const handleFilterChange = (e) => {
+    const { value } = e.target
+
+    // if (value.includes("'")) value = value.replace("'", '')
+
+    if (filters.includes(value)) setFilters((prevFilters) => prevFilters.filter((filter) => filter !== value))
+    else setFilters((prevFilters) => [...prevFilters, value])
+  }
 
   return (
     <section className='h-full flex flex-col'>
@@ -35,7 +64,12 @@ const ShopLayout = () => {
             <ul className='space-y-2'>
               {categories.map((category) => (
                 <div key={category} className='flex items-center'>
-                  <input type='checkbox' id={category} value={category} className='w-4 h-4 accent-black rounded' />
+                  <input
+                    type='checkbox'
+                    id={category}
+                    value={category} onChange={handleFilterChange}
+                    className='w-4 h-4 accent-black rounded'
+                  />
                   <label htmlFor={category} className='capitalize ms-2 text-sm font-medium text-gray-900'>{category}</label>
                 </div>
               ))}

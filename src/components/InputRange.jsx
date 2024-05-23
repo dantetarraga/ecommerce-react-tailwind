@@ -1,17 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Range } from 'react-range'
 
 const InputRange = ({ values, setValues }) => {
+  const [isDragged, setIsDragged] = useState(false)
+
+  // console.log(isDragged)
+
   return (
     <Range
       step={1}
-      min={0}
-      max={10}
+      min={5}
+      max={1000}
       values={values}
       onChange={(newValues) => setValues(newValues)}
-      renderTrack={({ props, children }) => (
+      renderTrack={({ props, children, isDragged }) => (
         <div
           {...props}
+          onTouchStart={() => console.log(isDragged)}
+          onTouchEnd={() => console.log(isDragged)}
           style={{
             ...props.style,
             height: '4px',

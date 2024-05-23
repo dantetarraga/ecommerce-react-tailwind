@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const usePagination = (data, itemsPerPage) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -15,6 +15,10 @@ const usePagination = (data, itemsPerPage) => {
   const goToPrevPage = () => setCurrentPage((page) => Math.max(page - 1, 1))
 
   const goToPage = (page) => setCurrentPage(page)
+
+  useEffect(() => {
+    if (data.length < itemsPerPage) setCurrentPage(1)
+  }, [currentPage])
 
   return {
     currentItems,

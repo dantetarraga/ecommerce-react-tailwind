@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react'
 import { HiOutlineSquares2X2 } from 'react-icons/hi2'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/Pagination'
 import ProductCard from '../components/product/ProductCard'
 import usePagination from '../hooks/usePagination'
@@ -13,8 +14,31 @@ export const shopLoader = async () => {
 
 export const Shop = () => {
   const { products } = useLoaderData()
-  const totalProducts = products.length
+  const [searchParams] = useSearchParams()
+  const [filteredProducts, setFilteredProducts] = useState(products)
+  const [categoryfilters, setCategoryFilters] = useState([])
+  const [priceFilter, setPriceFilter] = useState([])
   const itemsPerPage = 10
+
+  useEffect(() => {
+    const category = searchParams.get('category') ? searchParams.get('category').split('-') : []
+    const price = searchParams.get('price') ? searchParams.get('price').split('-') : []
+
+    setCategoryFilters(category)
+    setPriceFilter(price)
+  }, [searchParams])
+
+  useEffect(() => {
+    const filtered = products.filter(product => {
+      return [
+        categoryfilters.length > 0 ? categoryfilters.includes(product.category) : true,
+        !!(product.price >= priceFilter[0] && product.price <= priceFilter[1])
+      ].every(condition => condition)
+    })
+    setFilteredProducts(filtered)
+  }, [categoryfilters, priceFilter])
+
+  const totalProducts = filteredProducts.length
 
   const {
     currentItems,
@@ -25,7 +49,7 @@ export const Shop = () => {
     totalPages,
     indexOfFirstItem,
     indexOfLastItem
-  } = usePagination(products, itemsPerPage)
+  } = usePagination(filteredProducts, itemsPerPage)
 
   return (
     <section>
