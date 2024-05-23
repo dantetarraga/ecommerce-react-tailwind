@@ -6,7 +6,7 @@ const Pagination = ({ currentPage, totalPages, goToNextPage, goToPrevPage, goToP
       <ul className='inline-flex -space-x-px text-base h-10'>
         <li>
           <button
-            className={`flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:text-gray-700 hover:bg-gray-100'}`}
+            className={`flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 border border-e-0 border-gray-300 rounded-s-lg ${currentPage === 1 ? 'bg-gray-200 text-gray-400' : 'hover:text-gray-700 hover:bg-gray-100'}`}
             onClick={goToPrevPage}
             disabled={currentPage === 1}
           >
@@ -17,7 +17,7 @@ const Pagination = ({ currentPage, totalPages, goToNextPage, goToPrevPage, goToP
           pages.map((page) => (
             <li key={page}>
               <button
-                className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700  ${currentPage === page && 'text-white bg-gray-200'}`}
+                className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ${currentPage === page && 'text-black bg-gray-200'}`}
                 onClick={() => goToPage(page)}
               >
                 {page}
@@ -27,7 +27,7 @@ const Pagination = ({ currentPage, totalPages, goToNextPage, goToPrevPage, goToP
         }
         <li>
           <button
-            className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'hover:text-gray-700 hover:bg-gray-100'}`}
+            className={`flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 rounded-e-lg ${currentPage === totalPages ? 'bg-gray-200 text-gray-400' : 'hover:text-gray-700 hover:bg-gray-100'}`}
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
           >

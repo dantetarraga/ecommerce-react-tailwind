@@ -66,25 +66,25 @@ const ShopLayout = () => {
 
       </div>
 
-      <footer className='flex justify-between items-end flex-grow mb-20'>
+      <footer className='flex justify-between items-end flex-grow mb-20 mt-10 [&>*]:space-y-2'>
         <div>
           <FaBoxOpen className='text-5xl text-black' />
-          <p>Free Shipping</p>
+          <p className='font-bold'>Free Shipping</p>
           <p>Free shipping for order above $150</p>
         </div>
         <div>
           <RiMoneyDollarCircleLine className='text-5xl text-black' />
-          <p>Money Guarantee</p>
+          <p className='font-bold'>Money Guarantee</p>
           <p>Within 30 days for an exchange</p>
         </div>
         <div>
           <SlEarphones className='text-5xl text-black' />
-          <p>Online Support</p>
+          <p className='font-bold'>Online Support</p>
           <p>24 hours a day, 7 days a week</p>
         </div>
         <div>
           <MdOutlinePayment className='text-5xl text-black' />
-          <p>flexible Payment</p>
+          <p className='font-bold'>flexible Payment</p>
           <p>Pay with multiple credit cards</p>
         </div>
       </footer>

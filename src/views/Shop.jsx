@@ -14,7 +14,7 @@ export const shopLoader = async () => {
 export const Shop = () => {
   const { products } = useLoaderData()
   const totalProducts = products.length
-  const itemsPerPage = 4
+  const itemsPerPage = 10
 
   const {
     currentItems,
