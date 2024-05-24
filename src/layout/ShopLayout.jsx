@@ -6,7 +6,6 @@ import { SlEarphones } from 'react-icons/sl'
 import { Outlet, useLoaderData, useSearchParams } from 'react-router-dom'
 import InputRange from '../components/InputRange'
 import { getAllCategories } from '../services/products'
-import debounce from '../utils/debounce'
 
 export const shopLayoutLoader = async () => {
   const categories = await getAllCategories()
@@ -19,7 +18,7 @@ const ShopLayout = () => {
   const { categories } = useLoaderData()
   const [filters, setFilters] = useState([])
   const [priceRange, setPriceRange] = useState([5, 1000])
-  const [isSliding, setIsSliding] = useState(false)
+  const [isDragged, setIsDragged] = useState(false)
 
   useEffect(() => {
     if (filters.length === 0) setSearchParams({ price: priceRange.join('-') })
@@ -27,20 +26,14 @@ const ShopLayout = () => {
   }, [filters])
 
   useEffect(() => {
-    const updateSearchParams = debounce(() => {
-      if (filters.length === 0) setSearchParams({ price: priceRange.join('-') })
-      else setSearchParams({ price: priceRange.join('-'), category: filters.join('-') })
-    }, 500)
+    if (isDragged) return
 
-    updateSearchParams()
-
-    return () => updateSearchParams.cancel && updateSearchParams.cancel()
-  }, [priceRange])
+    if (filters.length === 0) setSearchParams({ price: priceRange.join('-') })
+    else setSearchParams({ price: priceRange.join('-'), category: filters.join('-') })
+  }, [isDragged])
 
   const handleFilterChange = (e) => {
     const { value } = e.target
-
-    // if (value.includes("'")) value = value.replace("'", '')
 
     if (filters.includes(value)) setFilters((prevFilters) => prevFilters.filter((filter) => filter !== value))
     else setFilters((prevFilters) => [...prevFilters, value])
@@ -88,7 +81,7 @@ const ShopLayout = () => {
                 Price: ${priceRange[0]} - ${priceRange[1]}
               </p>
 
-              <InputRange values={priceRange} setValues={setPriceRange} />
+              <InputRange values={priceRange} setValues={setPriceRange} setIsDragged={setIsDragged} />
             </div>
           </div>
 

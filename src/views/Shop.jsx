@@ -55,7 +55,19 @@ export const Shop = () => {
     <section>
       <div className='flex items-center gap-5 mb-5'>
         <HiOutlineSquares2X2 className='text-3xl text-black self-center' />
-        <p>Showing {indexOfFirstItem + 1} - {indexOfLastItem} of {totalProducts} results</p>
+        {
+          itemsPerPage > totalProducts
+            ? (
+              <p>Showing {1} - {totalProducts} of {' '}
+                {totalProducts} results
+              </p>
+              )
+            : (
+              <p> Showing {' '}{indexOfFirstItem + 1} - {indexOfLastItem} of {' '}
+                {totalProducts} results
+              </p>
+              )
+        }
       </div>
       <div className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-10'>
         {currentItems.map((product) => (

@@ -1,45 +1,48 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Range } from 'react-range'
 
-const InputRange = ({ values, setValues }) => {
-  const [isDragged, setIsDragged] = useState(false)
-
-  // console.log(isDragged)
-
+const InputRange = ({ values, setValues, setIsDragged }) => {
   return (
     <Range
       step={1}
       min={5}
       max={1000}
       values={values}
-      onChange={(newValues) => setValues(newValues)}
-      renderTrack={({ props, children, isDragged }) => (
-        <div
-          {...props}
-          onTouchStart={() => console.log(isDragged)}
-          onTouchEnd={() => console.log(isDragged)}
-          style={{
-            ...props.style,
-            height: '4px',
-            width: '100%',
-            backgroundColor: '#000',
-            position: 'relative'
-          }}
-        >
+      onChange={(newValues) => {
+        setIsDragged(true)
+        setValues(newValues)
+      }}
+      onFinalChange={(newValues) => {
+        setValues(newValues)
+        setIsDragged(false)
+      }}
+      renderTrack={({ props, children, isDragged }) => {
+        return (
           <div
+            {...props}
             style={{
-              position: 'absolute',
-              height: '6px',
-              background: '#000',
-              borderRadius: '4px',
-              left: `${((values[0] - props.min) / (props.max - props.min)) * 100}%`,
-              width: `${((values[1] - values[0]) / (props.max - props.min)) * 100}%`
+              ...props.style,
+              height: '4px',
+              width: '100%',
+              backgroundColor: '#000',
+              position: 'relative'
             }}
-          />
-          {children}
-        </div>
-      )}
-      renderThumb={({ props }) => {
+          >
+            <div
+              style={{
+                position: 'absolute',
+                height: '6px',
+                background: '#000',
+                borderRadius: '4px',
+                left: `${((values[0] - props.min) / (props.max - props.min)) * 100}%`,
+                width: `${((values[1] - values[0]) / (props.max - props.min)) * 100}%`
+              }}
+            />
+            {children}
+          </div>
+        )
+      }}
+      renderThumb={({ props, isDragged }) => {
         const { key, ...restProps } = props
         return (
           <div

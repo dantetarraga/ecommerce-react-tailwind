@@ -10,15 +10,15 @@ const usePagination = (data, itemsPerPage) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage)
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem)
 
+  useEffect(() => {
+    if (data.length < itemsPerPage) setCurrentPage(1)
+  }, [currentPage])
+
   const goToNextPage = () => setCurrentPage((page) => Math.min(page + 1, totalPages))
 
   const goToPrevPage = () => setCurrentPage((page) => Math.max(page - 1, 1))
 
   const goToPage = (page) => setCurrentPage(page)
-
-  useEffect(() => {
-    if (data.length < itemsPerPage) setCurrentPage(1)
-  }, [currentPage])
 
   return {
     currentItems,
