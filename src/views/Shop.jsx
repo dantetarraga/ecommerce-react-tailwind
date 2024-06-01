@@ -14,7 +14,7 @@ export const shopLoader = async () => {
 
 export const Shop = () => {
   const { products } = useLoaderData()
-  const [searchParams] = useSearchParams()
+  const [searchParams] = useSearchParams([])
   const [filteredProducts, setFilteredProducts] = useState(products)
   const [categoryfilters, setCategoryFilters] = useState([])
   const [priceFilter, setPriceFilter] = useState([])

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { CiShoppingCart } from 'react-icons/ci'
 import { IoEyeOutline } from 'react-icons/io5'
+import useCart from '../../hooks/useCart'
 import ModalProduct from './ModalProduct'
 
 const ProductCard = ({ product }) => {
   const [show, setShow] = useState(false)
+  const { addToCart } = useCart()
 
   const handleOpenModal = () => setShow(true)
   const handleCloseModal = () => setShow(false)
@@ -30,7 +32,10 @@ const ProductCard = ({ product }) => {
 
       <div className='absolute top-2 right-3 flex flex-col gap-5 [&>*]:cursor-pointer'>
         <button className='flex place-items-center hover:bg-slate-100 bg-white rounded-full p-2'>
-          <CiShoppingCart className='text-2xl text-black' />
+          <CiShoppingCart
+            onClick={() => addToCart(product)}
+            className='text-2xl text-black'
+          />
         </button>
         <button
           className='flex place-items-center hover:bg-slate-100 bg-white rounded-full p-2'

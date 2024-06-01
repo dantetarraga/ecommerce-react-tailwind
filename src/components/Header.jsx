@@ -1,14 +1,21 @@
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
-import { IoIosHeartEmpty } from 'react-icons/io'
 import { IoSearchOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
+import useCart from '../hooks/useCart'
 
 const Header = () => {
+  const { totalItems } = useCart()
+  console.log(totalItems)
+
   return (
     <div className='container mx-auto flex items-center py-5'>
       <div className='basis-0 flex-grow cursor-pointer'>
-        <img className='w-[100px] h-auto' src={Logo} alt='Apparel Express logo' />
+        <img
+          className='w-[100px] h-auto'
+          src={Logo}
+          alt='Apparel Express logo'
+        />
       </div>
 
       <nav className=''>
@@ -18,22 +25,26 @@ const Header = () => {
           <Link to='/dels'>Dels</Link>
           <Link to='/contact-us'>Contact Us</Link>
         </ul>
-
       </nav>
 
       <nav className='[&>button]:text-white flex items-center justify-end basis-0 flex-grow gap-7'>
         <ul className='flex gap-5 text-xl [&>li]:cursor-pointer'>
-          <li>
-            <IoSearchOutline />
+          <li className='relative'>
+            <IoSearchOutline className='text-2xl' />
           </li>
-          <li>
-            <IoIosHeartEmpty />
-          </li>
-          <li>
-            <HiOutlineShoppingBag />
+
+          <li className='relative'>
+            <HiOutlineShoppingBag className=' text-2xl' />
+            {totalItems > 0 && (
+              <span class='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full'>
+                {totalItems}
+              </span>
+            )}
           </li>
         </ul>
-        <button className='py-2 px-10 bg-black rounded-md text-sm cursor-pointer'>Login</button>
+        <button className='py-2 px-10 bg-black rounded-md text-sm cursor-pointer'>
+          Login
+        </button>
       </nav>
     </div>
   )
