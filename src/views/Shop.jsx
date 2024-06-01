@@ -19,6 +19,17 @@ export const Shop = () => {
   const [categoryfilters, setCategoryFilters] = useState([])
   const [priceFilter, setPriceFilter] = useState([])
   const itemsPerPage = 10
+  const totalProducts = filteredProducts.length
+  const {
+    currentItems,
+    currentPage,
+    goToNextPage,
+    goToPrevPage,
+    goToPage,
+    totalPages,
+    indexOfFirstItem,
+    indexOfLastItem
+  } = usePagination(filteredProducts, itemsPerPage)
 
   useEffect(() => {
     const category = searchParams.get('category') ? searchParams.get('category').split('-') : []
@@ -37,19 +48,6 @@ export const Shop = () => {
     })
     setFilteredProducts(filtered)
   }, [categoryfilters, priceFilter])
-
-  const totalProducts = filteredProducts.length
-
-  const {
-    currentItems,
-    currentPage,
-    goToNextPage,
-    goToPrevPage,
-    goToPage,
-    totalPages,
-    indexOfFirstItem,
-    indexOfLastItem
-  } = usePagination(filteredProducts, itemsPerPage)
 
   return (
     <section>
