@@ -42,9 +42,9 @@ const Header = () => {
             </Link>
           </li>
         </ul>
-        <button className='py-2 px-10 bg-black rounded-md text-sm cursor-pointer'>
+        {/* <button className='py-2 px-10 bg-black rounded-md text-sm cursor-pointer'>
           Login
-        </button>
+        </button> */}
       </nav>
     </div>
   )

@@ -1,12 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiOutlineShoppingBag } from 'react-icons/hi'
 import { IoCloseSharp } from 'react-icons/io5'
 import ReactStars from 'react-stars'
 import useCart from '../../hooks/useCart'
 
 const ModalProduct = ({ product, onClose }) => {
-  const { dispatch } = useCart()
+  const { dispatch, cart } = useCart()
+  const [existProductToCart, setExistProductToCart] = useState(false)
   const [quantity, setQuantity] = useState(1)
+
+  useEffect(() => {
+    const existProduct = cart.find((item) => item.id === product.id)
+
+    if (existProduct) setExistProductToCart(true)
+  }, [cart])
 
   const handleIncrementQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1)
   const handleDecrementQuantity = () => setQuantity((prevQuantity) => prevQuantity > 1 ? prevQuantity - 1 : 1)
@@ -21,7 +28,6 @@ const ModalProduct = ({ product, onClose }) => {
       className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'
       onClick={onClose}
     >
-
       <div
         className='bg-white p-8 rounded-lg w-[1000px] h-[450px] relative'
         onClick={(event) => event.stopPropagation()}
@@ -68,9 +74,10 @@ const ModalProduct = ({ product, onClose }) => {
 
               <button
                 onClick={handleAddToCart}
-                className='flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none'
+                disabled={existProductToCart}
+                className={`flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white  rounded-md  focus:outline-none ${existProductToCart ? 'bg-gray-400' : 'hover:bg-gray-800 bg-black'}`}
               >
-                Add to Cart
+                {!existProductToCart ? 'Add to Cart' : 'Added to Cart'}
                 <HiOutlineShoppingBag className='text-xl' />
               </button>
             </div>
