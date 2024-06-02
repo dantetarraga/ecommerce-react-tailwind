@@ -5,8 +5,7 @@ import Logo from '../assets/logo.png'
 import useCart from '../hooks/useCart'
 
 const Header = () => {
-  const { totalItems } = useCart()
-  console.log(totalItems)
+  const { cart } = useCart()
 
   return (
     <div className='container mx-auto flex items-center py-5'>
@@ -19,10 +18,9 @@ const Header = () => {
       </div>
 
       <nav className=''>
-        <ul className='flex gap-5 text-sm font-semibold [&>li]:cursor-pointer'>
+        <ul className='flex gap-10 text-sm font-semibold [&>li]:cursor-pointer'>
           <Link to='/'>Home</Link>
           <Link to='/shop'>Shop</Link>
-          <Link to='/dels'>Dels</Link>
           <Link to='/contact-us'>Contact Us</Link>
         </ul>
       </nav>
@@ -34,12 +32,14 @@ const Header = () => {
           </li>
 
           <li className='relative'>
-            <HiOutlineShoppingBag className=' text-2xl' />
-            {totalItems > 0 && (
-              <span class='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full'>
-                {totalItems}
-              </span>
-            )}
+            <Link to='/cart'>
+              <HiOutlineShoppingBag className=' text-2xl' />
+              {cart.length > 0 && (
+                <span className='absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full'>
+                  {cart.length}
+                </span>
+              )}
+            </Link>
           </li>
         </ul>
         <button className='py-2 px-10 bg-black rounded-md text-sm cursor-pointer'>

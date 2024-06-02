@@ -1,22 +1,42 @@
 import { useEffect, useState } from 'react'
 import { CiShoppingCart } from 'react-icons/ci'
 import { IoEyeOutline } from 'react-icons/io5'
+import { MdOutlineCancel } from 'react-icons/md'
+import { toast } from 'sonner'
 import useCart from '../../hooks/useCart'
 import ModalProduct from './ModalProduct'
 
 const ProductCard = ({ product }) => {
   const [show, setShow] = useState(false)
-  const { addToCart } = useCart()
-
-  const handleOpenModal = () => setShow(true)
-  const handleCloseModal = () => setShow(false)
-
-  const handleEscape = (event) => { if (event.keyCode === 27) handleCloseModal() }
+  const { dispatch, isProductInCart } = useCart()
 
   useEffect(() => {
     if (show) document.addEventListener('keydown', handleEscape, false)
     return () => document.removeEventListener('keydown', handleEscape, false)
-  }, [handleEscape, show])
+  }, [show])
+
+  const handleAddToCart = (product) => {
+    dispatch({ type: 'ADD_TO_CART', payload: product })
+
+    const productAddedSuccessfully = isProductInCart(product)
+
+    if (productAddedSuccessfully) {
+      toast.success('Product added to cart', {
+        duration: 3000,
+        className: 'bg-green-500 text-white'
+      })
+    } else {
+      toast.error('Failed to add product to cart', {
+        className: 'bg-red-500 text-white',
+        duration: 3000,
+        icon: <MdOutlineCancel className='text-2xl' />
+      })
+    }
+  }
+
+  const handleOpenModal = () => setShow(true)
+  const handleCloseModal = () => setShow(false)
+  const handleEscape = (event) => { if (event.keyCode === 27) handleCloseModal() }
 
   return (
     <div className='shadow-lg p-5 flex flex-col relative bg-gray-100 h-[400px]'>
@@ -33,7 +53,7 @@ const ProductCard = ({ product }) => {
       <div className='absolute top-2 right-3 flex flex-col gap-5 [&>*]:cursor-pointer'>
         <button className='flex place-items-center hover:bg-slate-100 bg-white rounded-full p-2'>
           <CiShoppingCart
-            onClick={() => addToCart(product)}
+            onClick={() => handleAddToCart(product)}
             className='text-2xl text-black'
           />
         </button>

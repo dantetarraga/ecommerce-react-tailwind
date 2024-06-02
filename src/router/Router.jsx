@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import AppLayout from '../layout/AppLayout'
 import ShopLayout, { shopLayoutLoader } from '../layout/ShopLayout'
+import Cart from '../views/Cart'
 import Home from '../views/Home'
 import { Shop, shopLoader } from '../views/Shop'
 
@@ -25,9 +26,8 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: '/dels',
-        // element: <Dels />
-        element: <div>Dels</div>
+        path: '/cart',
+        element: <Cart />
       },
       {
         path: '/contact-us',

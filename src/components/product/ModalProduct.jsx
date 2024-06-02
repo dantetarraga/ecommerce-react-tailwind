@@ -2,12 +2,19 @@ import { useState } from 'react'
 import { HiOutlineShoppingBag } from 'react-icons/hi'
 import { IoCloseSharp } from 'react-icons/io5'
 import ReactStars from 'react-stars'
+import useCart from '../../hooks/useCart'
 
 const ModalProduct = ({ product, onClose }) => {
+  const { dispatch } = useCart()
   const [quantity, setQuantity] = useState(1)
 
-  const handleIncrementQuantity = () => setQuantity(quantity + 1)
-  const handleDecrementQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1)
+  const handleIncrementQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1)
+  const handleDecrementQuantity = () => setQuantity((prevQuantity) => prevQuantity > 1 ? prevQuantity - 1 : 1)
+
+  const handleAddToCart = () => {
+    dispatch({ type: 'ADD_TO_CART', payload: product, quantity })
+    onClose()
+  }
 
   return (
     <div
@@ -59,7 +66,10 @@ const ModalProduct = ({ product, onClose }) => {
                 </button>
               </div>
 
-              <button className='flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none'>
+              <button
+                onClick={handleAddToCart}
+                className='flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white bg-black rounded-md hover:bg-gray-800 focus:outline-none'
+              >
                 Add to Cart
                 <HiOutlineShoppingBag className='text-xl' />
               </button>

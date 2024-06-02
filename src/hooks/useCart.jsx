@@ -1,16 +1,17 @@
 import cartStore from '../store/cartStore'
 
 const useCart = () => {
-  const { cart, addToCart, removeFromCart, clearCart, getTotalItems, getTotalPrice } = cartStore()
+  const { cart, dispatch, getTotalItems, getTotalPrice } = cartStore()
   const totalItems = getTotalItems()
+
+  const isProductInCart = (product) => (cart.some((item) => item.id === product.id))
 
   return {
     cart,
-    addToCart,
-    removeFromCart,
-    clearCart,
+    dispatch,
     totalItems,
-    getTotalPrice
+    getTotalPrice,
+    isProductInCart
   }
 }
 
