@@ -21,7 +21,7 @@ const Header = () => {
         <ul className='flex gap-10 text-sm font-semibold [&>li]:cursor-pointer'>
           <Link to='/'>Home</Link>
           <Link to='/shop'>Shop</Link>
-          <Link to='/contact-us'>Contact Us</Link>
+          {/* <Link to='/contact-us'>Contact Us</Link> */}
         </ul>
       </nav>
 

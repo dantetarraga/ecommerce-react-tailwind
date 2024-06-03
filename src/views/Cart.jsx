@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import TbodyProduct from '../components/product/TbodyProduct'
 import useCart from '../hooks/useCart'
 
 const Cart = () => {
-  const { cart, getTotalPrice } = useCart()
+  const { cart, getTotalPrice, dispatch } = useCart()
   const [products, setPrducts] = useState(cart)
   const navigate = useNavigate()
 
@@ -20,6 +21,16 @@ const Cart = () => {
   }, [cart])
 
   const handleNavigateToShop = () => navigate('/shop')
+  const handleProceedToCheckout = async () => {
+    toast.success('Your order has been placed successfully', {
+      duration: 3000,
+      className: 'bg-green-500 text-white'
+    })
+    navigate('/shop')
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    dispatch({ type: 'CLEAR_CART' })
+  }
 
   return (
     <section className='h-full'>
@@ -62,7 +73,7 @@ const Cart = () => {
               <section className='flex gap-5 flex-col border px-8 [&>*]:flex [&>*]:justify-between'>
                 <div className='p-4 border-b-2 border-gray-200 font-bold text-black'>
                   <p>Subtotal</p>
-                  <p>{getTotalPrice()}</p>
+                  <p>{getTotalPrice().toFixed()}</p>
                 </div>
 
                 <div className='p-4 border-b-2 border-gray-200 '>
@@ -72,10 +83,13 @@ const Cart = () => {
 
                 <div className='p-4 font-bold text-black'>
                   <p>Grand Total</p>
-                  <p>${grandTotalPrice}</p>
+                  <p>${grandTotalPrice.toFixed()}</p>
                 </div>
 
-                <button className='mb-4 p-4 bg-black text-gray-200 text-sm rounded-md w-full hover:bg-gray-800 flex justify-center items-center'>
+                <button
+                  className='mb-4 p-4 bg-black text-gray-200 text-sm rounded-md w-full hover:bg-gray-800 flex justify-center items-center'
+                  onClick={handleProceedToCheckout}
+                >
                   <p className='text-center w-full'>Proceed to Checkout</p>
                 </button>
               </section>

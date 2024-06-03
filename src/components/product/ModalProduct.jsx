@@ -1,25 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { HiOutlineShoppingBag } from 'react-icons/hi'
 import { IoCloseSharp } from 'react-icons/io5'
 import ReactStars from 'react-stars'
+import { toast } from 'sonner'
 import useCart from '../../hooks/useCart'
 
 const ModalProduct = ({ product, onClose }) => {
   const { dispatch, cart } = useCart()
-  const [existProductToCart, setExistProductToCart] = useState(false)
   const [quantity, setQuantity] = useState(1)
-
-  useEffect(() => {
-    const existProduct = cart.find((item) => item.id === product.id)
-
-    if (existProduct) setExistProductToCart(true)
-  }, [cart])
 
   const handleIncrementQuantity = () => setQuantity((prevQuantity) => prevQuantity + 1)
   const handleDecrementQuantity = () => setQuantity((prevQuantity) => prevQuantity > 1 ? prevQuantity - 1 : 1)
 
   const handleAddToCart = () => {
-    dispatch({ type: 'ADD_TO_CART', payload: product, quantity })
+    const existProduct = cart.some((item) => item.id === product.id)
+
+    if (!existProduct) dispatch({ type: 'ADD_TO_CART', payload: product, quantity })
+    else { dispatch({ type: 'UPDATE_PRODUCT_QUANTITY', payload: { id: product.id, quantity } }) }
+
+    toast.success('Product added to cart successfully', {
+      duration: 3000,
+      className: 'bg-green-500 text-white'
+    })
     onClose()
   }
 
@@ -74,10 +76,10 @@ const ModalProduct = ({ product, onClose }) => {
 
               <button
                 onClick={handleAddToCart}
-                disabled={existProductToCart}
-                className={`flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white  rounded-md  focus:outline-none ${existProductToCart ? 'bg-gray-400' : 'hover:bg-gray-800 bg-black'}`}
+                className='flex items-center justify-center gap-5 flex-grow px-4 py-4 text-white  rounded-md  focus:outline-none hover:bg-gray-800 bg-black'
               >
-                {!existProductToCart ? 'Add to Cart' : 'Added to Cart'}
+                {/* {!existProductToCart ? 'Add to Cart' : 'Added to Cart'} */}
+                Add to Cart
                 <HiOutlineShoppingBag className='text-xl' />
               </button>
             </div>
