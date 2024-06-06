@@ -1,9 +1,11 @@
 export const getAllProducts = async () => {
   const response = await fetch('https://fakestoreapi.com/products')
-  return await response.json()
+  const data = await response.json()
+  return data
 }
 
 export const getAllCategories = async () => {
   const response = await fetch('https://fakestoreapi.com/products/categories')
-  return await response.json()
+  const data = await response.json()
+  return data
 }

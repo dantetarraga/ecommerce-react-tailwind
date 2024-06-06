@@ -11,9 +11,10 @@ const Header = () => {
     <div className='container mx-auto flex items-center py-5'>
       <div className='basis-0 flex-grow cursor-pointer'>
         <img
-          className='w-[100px] h-auto'
+          className='w-[100px] h-auto aspect-video'
           src={Logo}
           alt='Apparel Express logo'
+          loading='lazy'
         />
       </div>
 
