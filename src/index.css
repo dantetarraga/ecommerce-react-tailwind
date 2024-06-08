@@ -16,3 +16,6 @@
   animation: scroll 10s linear infinite;
 }
 
+.hero {
+  aspect-ratio: 16 / 9;
+}

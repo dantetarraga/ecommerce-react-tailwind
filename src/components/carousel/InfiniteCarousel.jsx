@@ -19,10 +19,10 @@ const InfiniteCarousel = () => {
 
   return (
     <div className='overflow-hidden'>
-      <div className='grid grid-flow-col auto-cols-[15rem] items-center animate-scroll'>
+      <div className='grid grid-flow-col auto-cols-[8rem] md:auto-cols-[15rem] items-center animate-scroll'>
         {
           brands.map((brand, index) => (
-            <div key={index} className='w-4/5'>
+            <div key={index} className='w-20 md:w-4/5'>
               <img src={brand.brand} alt={brand.name} className='w-full' />
             </div>
           ))

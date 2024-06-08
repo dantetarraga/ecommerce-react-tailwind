@@ -1,5 +1,6 @@
-import React, { lazy } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
+import LoadingSpinner from '../components/loading/LoadingSpinner'
 
 const Header = lazy(() => import('../components/Header'))
 const Footer = lazy(() => import('../components/Footer'))
@@ -10,7 +11,9 @@ const AppLayout = () => {
       <Header />
 
       <main className='flex-grow flex flex-col'>
-        <Outlet />
+        <Suspense fallback={<LoadingSpinner />}>
+          <Outlet />
+        </Suspense>
       </main>
 
       <Footer className='items-end' />

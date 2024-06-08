@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import LoadingSpinner from './components/loading/LoadingSpinner'
@@ -8,9 +8,7 @@ function App () {
   return (
     <>
       <Toaster />
-      <Suspense fallback={<LoadingSpinner />}>
-        <RouterProvider router={router} />
-      </Suspense>
+      <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
     </>
   )
 }

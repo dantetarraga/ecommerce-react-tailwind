@@ -96,7 +96,6 @@ const Cart = () => {
             </main>
           </>
           )}
-
     </section>
   )
 }
