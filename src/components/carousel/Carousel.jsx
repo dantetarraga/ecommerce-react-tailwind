@@ -3,22 +3,22 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6'
 
 const slides = [
   {
-    image: 'jewelery.webp',
+    image: 'jewelery.jpg',
     title: 'Jewelery',
     discount: 'Up to 50% off'
   },
   {
-    image: 'electronics.webp',
+    image: 'electronics.jpg',
     title: 'Watches',
     discount: 'Up to 30% off'
   },
   {
-    image: 'women-clothing.webp',
+    image: 'women-clothing.jpg',
     title: 'Women Clothing',
     discount: 'Up to 40% off'
   },
   {
-    image: 'mens-clothing.webp',
+    image: 'mens-clothing.jpg',
     title: 'Mens Clothing',
     discount: 'Up to 60% off'
   }
