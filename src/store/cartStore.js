@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -49,11 +50,18 @@ const cartReducer = (state, action) => {
   }
 }
 
-const cartStore = create((set, get) => ({
-  cart: [],
-  dispatch: (action) => set((state) => cartReducer(state, action)),
-  getTotalItems: () => get().cart.reduce((acc, item) => acc + item.quantity, 0),
-  getTotalPrice: () => get().cart.reduce((acc, item) => acc + item.quantity * item.price, 0)
-}))
+const cartStore = create(
+  persist(
+    (set, get) => ({
+      cart: [],
+      dispatch: (action) => set((state) => cartReducer(state, action)),
+      getTotalItems: () => get().cart.reduce((acc, item) => acc + item.quantity, 0),
+      getTotalPrice: () => get().cart.reduce((acc, item) => acc + item.quantity * item.price, 0)
+    }),
+    {
+      name: 'cart-storage'
+    }
+  )
+)
 
 export default cartStore
