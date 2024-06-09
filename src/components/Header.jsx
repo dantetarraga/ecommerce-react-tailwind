@@ -8,17 +8,17 @@ const Header = () => {
   const { cart } = useCart()
 
   return (
-    <div className='container mx-auto flex items-center py-5'>
-      <div className='basis-0 flex-grow cursor-pointer'>
+    <div className='container md:mx-auto flex items-center py-5 px-5'>
+      <div className='hidden md:block basis-0 flex-grow cursor-pointer'>
         <img
-          className='w-[100px] h-auto aspect-video'
+          className='w-14 md:w-[100px] h-auto aspect-auto'
           src={Logo}
           alt='Apparel Express logo'
           loading='lazy'
         />
       </div>
 
-      <nav className=''>
+      <nav>
         <ul className='flex gap-10 text-sm font-semibold [&>li]:cursor-pointer'>
           <Link to='/'>Home</Link>
           <Link to='/shop'>Shop</Link>

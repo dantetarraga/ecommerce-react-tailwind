@@ -6,7 +6,7 @@ const InputRange = ({ values, setValues, setIsDragged }) => {
     <Range
       step={1}
       min={5}
-      max={1000}
+      max={170}
       values={values}
       onChange={(newValues) => {
         setIsDragged(true)
