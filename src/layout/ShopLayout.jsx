@@ -64,11 +64,12 @@ const ShopLayout = () => {
         </p>
       </div>
       <div className='flex gap-10'>
-        <aside className='bg-white py-0 md:py-0 fixed top-0 left-0 md:static right-0 z-10'>
+        <aside className='bg-white py-0 fixed top-0 left-0 md:static right-0 z-10'>
 
           <div className={`${!showMenu && 'hidden'} bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm`} onClick={() => setShowMenu(false)} />
 
-          <section className={`${showMenu ? 'w-80 p-10' : 'w-0'} bg-white md:static min-h-screen fixed top-0 left-0 md:p-5 space-y-10 md:w-[300px] md:block transition-all duration-300`}>
+          <section className={`${showMenu ? 'w-80 p-10' : 'w-0'} bg-white md:static min-h-screen fixed top-0 left-0 space-y-10 md:w-[300px] md:block transition-all duration-300`}>
+
             <div className={`${!showMenu && 'hidden'} md:block`}>
               <div>
                 <div className='flex mb-5 text-xl justify-between items-center'>

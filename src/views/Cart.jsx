@@ -36,7 +36,7 @@ const Cart = () => {
     <section className='h-full'>
       {cart.length === 0
         ? (
-          <div className='flex items-center justify-center flex-col h-full'>
+          <div className='flex items-center justify-center flex-col h-full px-5 md:px-0'>
             <p className='text-4xl font-bold'>There are no products in the cart...</p>
             <img src='../../public/shoppingCartEmpty.jpg' className='w-60 h-60' alt='Shopping Cart' />
             <button
@@ -48,32 +48,34 @@ const Cart = () => {
           </div>
           )
         : (
-          <>
+          <div className='px-5 md:px-0'>
             <h1 className='text-2xl font-bold my-5'>Checkout</h1>
 
-            <main className='grid grid-cols-[2fr_1fr] gap-5'>
-              <table className='table-auto'>
-                <thead className='min-w-full border-b border-gray-200'>
-                  <tr className='w-full border-b [&>*]:px-8 [&>*]:py-4'>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Subtotal</th>
-                    <th />
-                  </tr>
-                </thead>
+            <main className='flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-5'>
+              <div className='overflow-auto'>
+                <table className='min-w-full'>
+                  <thead className='border-b border-gray-200'>
+                    <tr className='w-full border-b [&>*]:px-8 [&>*]:py-4'>
+                      <th>Product</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Subtotal</th>
+                      <th />
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {products.map((product) => (
-                    <TbodyProduct key={product.id} product={product} />
-                  ))}
-                </tbody>
-              </table>
+                  <tbody>
+                    {products.map((product) => (
+                      <TbodyProduct key={product.id} product={product} />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-              <section className='flex gap-5 flex-col border px-8 [&>*]:flex [&>*]:justify-between'>
+              <section className='flex gap-5 flex-col border px-8 [&>*]:flex [&>*]:justify-between mb-5 md:mb-0'>
                 <div className='p-4 border-b-2 border-gray-200 font-bold text-black'>
                   <p>Subtotal</p>
-                  <p>{getTotalPrice().toFixed()}</p>
+                  <p>{getTotalPrice().toFixed(2)}</p>
                 </div>
 
                 <div className='p-4 border-b-2 border-gray-200 '>
@@ -83,7 +85,7 @@ const Cart = () => {
 
                 <div className='p-4 font-bold text-black'>
                   <p>Grand Total</p>
-                  <p>${grandTotalPrice.toFixed()}</p>
+                  <p>${grandTotalPrice.toFixed(2)}</p>
                 </div>
 
                 <button
@@ -94,7 +96,7 @@ const Cart = () => {
                 </button>
               </section>
             </main>
-          </>
+          </div>
           )}
     </section>
   )

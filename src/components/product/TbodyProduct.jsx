@@ -25,7 +25,7 @@ const TbodyProduct = ({ product }) => {
       <td>
         <div className='font-bold text-sm flex items-center gap-4 p-4'>
           <img src={product.image} alt={product.title} className='w-16 h-16' />
-          <p className='text-wrap w-[300px]'>{product.title}</p>
+          <p className='text-wrap w-[150px] md:w-[300px]'>{product.title}</p>
         </div>
       </td>
 
