@@ -1,9 +1,13 @@
+import { useNavigate } from 'react-router-dom'
 import useCountdown from '../hooks/useCountdown'
 import Carousel from './carousel/Carousel'
 import Countdown from './Countdown'
 
 const Deals = () => {
   const { days, hours, minutes, seconds } = useCountdown()
+  const navigate = useNavigate()
+
+  const handleShopNavigation = () => navigate('/shop')
 
   return (
     <section className='border-t-2 border-gray-200 grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-5 py-10 px-5 md:px-0'>
@@ -13,7 +17,10 @@ const Deals = () => {
           <p className='text-[#8A8A8A] inline-block md:w-[500px] text-sm'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius itaque repudiandae exercitationem, sapiente corporis placeat. Reiciendis earum aliquid omnis necessitatibus quia dolores neque ut soluta iste.
           </p>
-          <button className='bg-black text-white text-xs px-10 py-2 rounded-md w-[150px]'>
+          <button
+            className='bg-black text-white text-xs px-10 py-2 rounded-md w-[150px]'
+            onClick={handleShopNavigation}
+          >
             Buy Now
           </button>
 

@@ -1,6 +1,11 @@
 import { IoIosArrowRoundForward } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 
 const HeroBanner = () => {
+  const navigate = useNavigate()
+
+  const handleShopNavigation = () => navigate('/shop')
+
   return (
     <div className='relative w-full bg-red-200'>
       <img className='rounded-md hero' src='/banner.jpg' alt='Banner' loading='lazy' />
@@ -8,7 +13,7 @@ const HeroBanner = () => {
         <h1 className='text-xl md:text-4xl font-bold text-white'>Apparel Express</h1>
         <p className='text-white text-sm md:text-lg w-[150px] md:w-fit'>Your one-stop shop for all your clothing needs</p>
         <p className='text-white text-sm md:text-lg'>UPTO 40% OFF</p>
-        <button className='text-xs flex items-center py-2 px-5 md:px-10 bg-black rounded-md md:text-sm cursor-pointer text-white mt-5'>
+        <button className='text-xs flex items-center py-2 px-5 md:px-10 bg-black rounded-md md:text-sm cursor-pointer text-white mt-5' onClick={handleShopNavigation}>
           <span className='mr-2'>Shop Now{' '}</span>
           <IoIosArrowRoundForward className='text-sm md:text-2xl' />
         </button>

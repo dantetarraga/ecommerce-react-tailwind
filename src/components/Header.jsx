@@ -1,5 +1,4 @@
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
-import { IoSearchOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import useCart from '../hooks/useCart'
@@ -29,7 +28,7 @@ const Header = () => {
       <nav className='[&>button]:text-white flex items-center justify-end basis-0 flex-grow gap-7'>
         <ul className='flex gap-5 text-xl [&>li]:cursor-pointer'>
           <li className='relative'>
-            <IoSearchOutline className='text-2xl' />
+            {/* <IoSearchOutline className='text-2xl' /> */}
           </li>
 
           <li className='relative'>
