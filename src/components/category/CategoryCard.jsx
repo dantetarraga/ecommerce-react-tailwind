@@ -9,7 +9,7 @@ const CategoryCard = ({ label, imageURL }) => {
     <div className='relative flex flex-shrink-0 justify-center rounded-lg overflow-hidden items-center'>
       <img
         className='object-cover h-full w-full rounded-lg'
-        src={`../../public/${imageURL}.jpg`}
+        src={`${imageURL}.jpg`}
         alt={`${label} category`}
         loading='lazy'
       />
