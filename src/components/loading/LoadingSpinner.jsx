@@ -1,9 +1,8 @@
-import React from 'react'
-
-const LoadingSpinner = () => {
+const LoadingSpinner = ({ fullPage = true }) => {
   return (
-    <div className='flex justify-center items-center h-screen'>
-      <div className='w-16 h-16 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin' />
+    <div role='status' className={`flex justify-center items-center ${fullPage ? 'min-h-[50vh]' : 'py-10'}`}>
+      <div className='w-10 h-10 border-[3px] border-accent-500 border-t-transparent rounded-full animate-spin' />
+      <span className='sr-only'>Loading...</span>
     </div>
   )
 }

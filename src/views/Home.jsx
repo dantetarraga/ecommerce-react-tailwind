@@ -1,16 +1,25 @@
-import InfiniteCarousel from '../components/carousel/InfiniteCarousel'
-import Categories from '../components/category/Categories'
-import Deals from '../components/Deals'
-import HeroBanner from '../components/HeroBanner'
+import { useEffect } from 'react'
+import BrandMarquee from '../components/home/BrandMarquee'
+import CategoryGrid from '../components/home/CategoryGrid'
+import Deals from '../components/home/Deals'
+import FeaturedProducts from '../components/home/FeaturedProducts'
+import HeroBanner from '../components/home/HeroBanner'
+import Perks from '../components/home/Perks'
 
 const Home = () => {
+  useEffect(() => {
+    document.title = 'Apparel Express | Ecommerce'
+  }, [])
+
   return (
-    <div className='space-y-5'>
+    <>
       <HeroBanner />
-      <InfiniteCarousel />
+      <BrandMarquee />
+      <CategoryGrid />
+      <FeaturedProducts />
       <Deals />
-      <Categories />
-    </div>
+      <Perks />
+    </>
   )
 }
 

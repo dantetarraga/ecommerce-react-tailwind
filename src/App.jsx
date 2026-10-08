@@ -7,7 +7,7 @@ import router from './router/Router'
 function App () {
   return (
     <>
-      <Toaster />
+      <Toaster position='bottom-right' richColors closeButton duration={3000} toastOptions={{ className: 'font-sans' }} />
       <RouterProvider router={router} fallbackElement={<LoadingSpinner />} />
     </>
   )

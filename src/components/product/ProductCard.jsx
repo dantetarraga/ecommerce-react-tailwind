@@ -1,89 +1,86 @@
-import { useEffect, useState } from 'react'
-import { CiShoppingCart } from 'react-icons/ci'
-import { HiOutlineShoppingBag } from 'react-icons/hi2'
-import { IoEyeOutline } from 'react-icons/io5'
+import { useState } from 'react'
+import { HiCheck, HiOutlineEye, HiOutlineShoppingBag } from 'react-icons/hi2'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import useCart from '../../hooks/useCart'
+import { formatPrice } from '../../utils/products'
+import { isProblemUser } from '../../utils/qa'
+import Button from '../ui/Button'
+import Rating from '../ui/Rating'
 import ModalProduct from './ModalProduct'
+import StockBadge from './StockBadge'
+
+// problem_user: every product shows the same picture
+const PROBLEM_USER_IMAGE = 'https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png'
 
 const ProductCard = ({ product }) => {
-  const [show, setShow] = useState(false)
-  const [existProductToCart, setExistProductToCart] = useState(false)
-  const { dispatch, cart } = useCart()
+  const [showQuickView, setShowQuickView] = useState(false)
+  const { dispatch, isProductInCart } = useCart()
+  const isInCart = isProductInCart(product)
+  const isOutOfStock = product.stock === 0
+  const detailUrl = `/product/${product.id}`
 
-  useEffect(() => {
-    if (show) document.addEventListener('keydown', handleEscape, false)
-    return () => document.removeEventListener('keydown', handleEscape, false)
-  }, [show])
-
-  useEffect(() => {
-    const existProductToCart = cart.find((item) => item.id === product.id)
-
-    if (existProductToCart) setExistProductToCart(true)
-    else setExistProductToCart(false)
-  }, [cart])
-
-  const handleAddToCart = async (product) => {
-    await dispatch({ type: 'ADD_TO_CART', payload: product })
-
-    toast.success('Product added to cart', {
-      duration: 3000,
-      className: 'bg-green-500 text-white'
-    })
+  const handleAddToCart = () => {
+    dispatch({ type: 'ADD_TO_CART', payload: product })
+    toast.success('Product added to cart', { description: product.title })
   }
 
-  const handleOpenModal = () => setShow(true)
-  const handleCloseModal = () => setShow(false)
-  const handleEscape = (event) => { if (event.keyCode === 27) handleCloseModal() }
+  const getButtonContent = () => {
+    if (isOutOfStock) return 'Out of stock'
+    if (isInCart) return <><HiCheck /> Added to cart</>
+    return <><HiOutlineShoppingBag /> Add to cart</>
+  }
 
   return (
-    <div className='shadow-lg p-5 flex flex-col relative bg-gray-100 h-[450px]'>
-      <img src={product.image} className='mb-5 object-cover h-[200px] self-center' alt={product.title} />
-
-      <main className='px-5 py-5 flex flex-col space-y-2 border-t-2 border-gray-300 flex-grow'>
-        <div className='flex justify-between'>
-          <h3 className='capitalize font-semibold text-base'>{product.category}</h3>
-          <p className='font-semibold text-lg'>$ {product.price}</p>
-        </div>
-        <p className='text-sm'>{product.title}</p>
-      </main>
-
-      <button
-        onClick={() => handleAddToCart(product)}
-        className={`flex items-center justify-center gap-5 px-4 py-3 text-white  rounded-md  focus:outline-none ${existProductToCart ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-500'}`}
-        disabled={existProductToCart}
-      >
-        {!existProductToCart ? 'Add to Cart' : 'Added to Cart'}
-        <HiOutlineShoppingBag className='text-xl' />
-      </button>
-
-      <div className='absolute top-2 right-3 flex flex-col gap-5 [&>*]:cursor-pointer'>
-        <button
-          className='flex place-items-center hover:bg-slate-100 bg-white rounded-full p-2'
-          onClick={() => handleAddToCart(product)}
-          disabled={existProductToCart}
-        >
-          <CiShoppingCart
-            className='text-2xl text-black'
+    <article data-testid={`product-card-${product.id}`} className='group flex flex-col'>
+      <div className='relative aspect-[4/5] overflow-hidden rounded-2xl border border-line bg-white'>
+        <Link to={detailUrl} tabIndex={-1} aria-hidden='true'>
+          <img
+            src={isProblemUser() ? PROBLEM_USER_IMAGE : product.image}
+            alt={product.title}
+            loading='lazy'
+            data-testid='product-image'
+            className={`h-full w-full object-contain p-6 md:p-8 transition-transform duration-500 group-hover:scale-105 ${isOutOfStock ? 'opacity-50' : ''}`}
           />
-        </button>
+        </Link>
+
+        <div className='absolute left-3 top-3'>
+          <StockBadge stock={product.stock} hideInStock />
+        </div>
+
         <button
-          className='flex place-items-center hover:bg-slate-100 bg-white rounded-full p-2'
-          onClick={handleOpenModal}
+          aria-label={`Quick view ${product.title}`}
+          data-testid='quick-view'
+          onClick={() => setShowQuickView(true)}
+          className='absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-card transition md:opacity-0 md:translate-y-1 md:group-hover:opacity-100 md:group-hover:translate-y-0 focus-visible:opacity-100'
         >
-          <IoEyeOutline className='text-2xl text-black' />
+          <HiOutlineEye className='text-lg' />
         </button>
       </div>
 
-      {show
-        ? (
-          <ModalProduct
-            product={product}
-            onClose={handleCloseModal}
-          />
-          )
-        : null}
-    </div>
+      <div className='flex flex-1 flex-col gap-1.5 pt-4'>
+        <p className='text-xs font-medium uppercase tracking-wider text-gray-500'>{product.category}</p>
+        <Link to={detailUrl} className='line-clamp-2 text-sm font-semibold leading-snug hover:underline' data-testid='product-title'>
+          {product.title}
+        </Link>
+        <Rating rate={product.rating.rate} count={product.rating.count} size='text-xs' />
+        <p className='mt-auto pt-1 text-lg font-bold' data-testid='product-price'>{formatPrice(product.price)}</p>
+      </div>
+
+      <Button
+        onClick={handleAddToCart}
+        data-testid='add-to-cart'
+        variant={isInCart ? 'outline' : 'primary'}
+        size='sm'
+        fullWidth
+        className='mt-3'
+        disabled={isInCart || isOutOfStock}
+      >
+        {getButtonContent()}
+      </Button>
+
+      {showQuickView && <ModalProduct product={product} onClose={() => setShowQuickView(false)} />}
+    </article>
   )
 }
 

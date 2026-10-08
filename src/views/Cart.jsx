@@ -1,103 +1,61 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import TbodyProduct from '../components/product/TbodyProduct'
+import { useEffect } from 'react'
+import { HiArrowRight, HiOutlineShoppingBag } from 'react-icons/hi2'
+import { Link } from 'react-router-dom'
+import CartItem from '../components/cart/CartItem'
+import CouponForm from '../components/cart/CouponForm'
+import OrderSummary from '../components/cart/OrderSummary'
+import Button from '../components/ui/Button'
+import EmptyState from '../components/ui/EmptyState'
 import useCart from '../hooks/useCart'
+import { calculateTotals } from '../utils/pricing'
 
 const Cart = () => {
-  const { cart, getTotalPrice, dispatch } = useCart()
-  const [products, setPrducts] = useState(cart)
-  const navigate = useNavigate()
-
-  const DELIVERY_CHARGE = 5.00
-  const grandTotalPrice = DELIVERY_CHARGE + getTotalPrice()
+  const { cart, coupon, totalItems, dispatch } = useCart()
+  const totals = calculateTotals({ items: cart, couponCode: coupon })
 
   useEffect(() => {
     document.title = 'Cart | E-commerce'
   }, [])
 
-  useEffect(() => {
-    setPrducts(cart)
-  }, [cart])
-
-  const handleNavigateToShop = () => navigate('/shop')
-  const handleProceedToCheckout = async () => {
-    toast.success('Your order has been placed successfully', {
-      duration: 3000,
-      className: 'bg-green-500 text-white'
-    })
-    navigate('/shop')
-
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    dispatch({ type: 'CLEAR_CART' })
+  if (cart.length === 0) {
+    return (
+      <EmptyState
+        testId='empty-cart'
+        icon={HiOutlineShoppingBag}
+        title='Your cart is empty'
+        description='Looks like you have not added anything yet. Explore the shop and find something you love.'
+        action={<Button to='/shop' size='lg' data-testid='continue-shopping'>Continue shopping</Button>}
+      />
+    )
   }
 
   return (
-    <section className='h-full'>
-      {cart.length === 0
-        ? (
-          <div className='flex items-center justify-center flex-col h-full px-5 md:px-0'>
-            <p className='text-4xl font-bold'>There are no products in the cart...</p>
-            <img src='../../public/shoppingCartEmpty.jpg' className='w-60 h-60' alt='Shopping Cart' />
-            <button
-              className='mt-5 p-4 bg-black text-gray-200 text-sm rounded-md hover:bg-gray-800'
-              onClick={handleNavigateToShop}
-            >
-              <p>Continue Shopping</p>
-            </button>
-          </div>
-          )
-        : (
-          <div className='px-5 md:px-0'>
-            <h1 className='text-2xl font-bold my-5'>Checkout</h1>
+    <section className='container py-6 md:py-10'>
+      <div className='mb-8 flex items-end justify-between gap-4'>
+        <div>
+          <h1 className='font-display text-4xl md:text-5xl font-semibold tracking-tight'>Shopping cart</h1>
+          <p className='mt-1 text-gray-500'>{totalItems} {totalItems === 1 ? 'item' : 'items'}</p>
+        </div>
+        <button data-testid='clear-cart' onClick={() => dispatch({ type: 'CLEAR_CART' })} className='text-sm font-semibold text-red-600 hover:underline'>
+          Clear cart
+        </button>
+      </div>
 
-            <main className='flex flex-col md:grid md:grid-cols-[2fr_1fr] gap-5'>
-              <div className='overflow-auto'>
-                <table className='min-w-full'>
-                  <thead className='border-b border-gray-200'>
-                    <tr className='w-full border-b [&>*]:px-8 [&>*]:py-4'>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                      <th>Subtotal</th>
-                      <th />
-                    </tr>
-                  </thead>
+      <div className='grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-8 lg:gap-12 items-start'>
+        <ul className='divide-y divide-line' data-testid='cart-table'>
+          {cart.map((product) => <CartItem key={product.id} product={product} />)}
+        </ul>
 
-                  <tbody>
-                    {products.map((product) => (
-                      <TbodyProduct key={product.id} product={product} />
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <section className='flex gap-5 flex-col border px-8 [&>*]:flex [&>*]:justify-between mb-5 md:mb-0'>
-                <div className='p-4 border-b-2 border-gray-200 font-bold text-black'>
-                  <p>Subtotal</p>
-                  <p>{getTotalPrice().toFixed(2)}</p>
-                </div>
-
-                <div className='p-4 border-b-2 border-gray-200 '>
-                  <p>Delivery charge</p>
-                  <p>${DELIVERY_CHARGE.toFixed(2)}</p>
-                </div>
-
-                <div className='p-4 font-bold text-black'>
-                  <p>Grand Total</p>
-                  <p>${grandTotalPrice.toFixed(2)}</p>
-                </div>
-
-                <button
-                  className='mb-4 p-4 bg-black text-gray-200 text-sm rounded-md w-full hover:bg-gray-800 flex justify-center items-center'
-                  onClick={handleProceedToCheckout}
-                >
-                  <p className='text-center w-full'>Proceed to Checkout</p>
-                </button>
-              </section>
-            </main>
-          </div>
-          )}
+        <div className='flex flex-col gap-4 lg:sticky lg:top-32'>
+          <OrderSummary totals={totals} couponCode={coupon}>
+            <CouponForm subtotal={totals.subtotal} />
+            <Button to='/checkout' size='lg' fullWidth data-testid='checkout-button'>
+              Proceed to checkout <HiArrowRight />
+            </Button>
+          </OrderSummary>
+          <Link to='/shop' className='text-center text-sm font-semibold underline underline-offset-4'>Continue shopping</Link>
+        </div>
+      </div>
     </section>
   )
 }

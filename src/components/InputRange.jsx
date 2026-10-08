@@ -1,64 +1,47 @@
-import React from 'react'
 import { Range } from 'react-range'
 
-const InputRange = ({ values, setValues, setIsDragged }) => {
+export const PRICE_MIN = 0
+export const PRICE_MAX = 1000
+const THUMB_LABELS = ['Minimum price', 'Maximum price']
+
+const InputRange = ({ values, onChange, onFinalChange }) => {
   return (
     <Range
       step={1}
-      min={5}
-      max={170}
+      min={PRICE_MIN}
+      max={PRICE_MAX}
       values={values}
-      onChange={(newValues) => {
-        setIsDragged(true)
-        setValues(newValues)
-      }}
-      onFinalChange={(newValues) => {
-        setValues(newValues)
-        setIsDragged(false)
-      }}
-      renderTrack={({ props, children, isDragged }) => {
-        return (
-          <div
-            {...props}
-            style={{
-              ...props.style,
-              height: '4px',
-              width: '100%',
-              backgroundColor: '#000',
-              position: 'relative'
-            }}
-          >
+      onChange={onChange}
+      onFinalChange={onFinalChange}
+      renderTrack={({ props, children }) => (
+        <div
+          onMouseDown={props.onMouseDown}
+          onTouchStart={props.onTouchStart}
+          className='flex h-6 w-full items-center'
+          style={props.style}
+        >
+          <div ref={props.ref} className='relative h-1 w-full rounded-full bg-surface-sunken'>
             <div
+              className='absolute h-1 rounded-full bg-ink'
               style={{
-                position: 'absolute',
-                height: '6px',
-                background: '#000',
-                borderRadius: '4px',
-                left: `${((values[0] - props.min) / (props.max - props.min)) * 100}%`,
-                width: `${((values[1] - values[0]) / (props.max - props.min)) * 100}%`
+                left: `${((values[0] - PRICE_MIN) / (PRICE_MAX - PRICE_MIN)) * 100}%`,
+                width: `${((values[1] - values[0]) / (PRICE_MAX - PRICE_MIN)) * 100}%`
               }}
             />
             {children}
           </div>
-        )
-      }}
-      renderThumb={({ props, isDragged }) => {
+        </div>
+      )}
+      renderThumb={({ props, index }) => {
         const { key, ...restProps } = props
         return (
           <div
             key={key}
             {...restProps}
-            style={{
-              ...restProps.style,
-              height: '15px',
-              width: '15px',
-              backgroundColor: '#000',
-              borderRadius: '50%',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderWidth: 'none'
-            }}
+            aria-label={THUMB_LABELS[index]}
+            data-testid={`price-thumb-${index}`}
+            className='h-5 w-5 rounded-full border-2 border-ink bg-white shadow-card focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500'
+            style={restProps.style}
           />
         )
       }}
